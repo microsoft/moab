@@ -1,0 +1,13 @@
+{
+  "entrypoints": {
+    "app": {
+      "js": [
+        "/moab/build/runtime.bac6aa15.js",
+        "/moab/build/app.1251725d.js"
+      ],
+      "css": [
+        "/moab/build/app.7c3f02bd.css"
+      ]
+    }
+  }
+}
