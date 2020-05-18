@@ -1,0 +1,85 @@
+
+$dark:  #3B3B3B;
+$light: #fff;
+$orange:  #EE7100;
+
+@import url("https://use.typekit.net/zfi0znh.css");
+
+body { 
+  padding: 0; 
+  margin: 0;
+  font-family: 'din-2014', 'Roboto Mono', monospace;
+}
+
+.splash {
+  background-color: $light;
+
+  .bg {
+    height: 100vh;
+    opacity: 0.2;
+    background: no-repeat center url('../img/background-dark.svg');
+    background-size: 3500px;
+  }
+
+  .headline-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    .headline {
+      margin-top: -10px;
+
+      h1 {
+        font-weight: bold;
+        font-size: 40px;
+        margin: 0;
+        color: $dark;
+      }
+    
+      .typewriter {
+        margin-top: 10px;
+        color: $orange;
+        letter-spacing: 16px;
+        text-transform: uppercase;
+        overflow: hidden;
+        white-space: nowrap;
+        border-right: .45em solid $orange; 
+        animation: 
+          typing 3.0s steps(45, end),
+          blink-caret .8s step-end infinite;
+    
+        @keyframes typing {
+          from { width: 0 }
+          to { width: 100% }
+        }
+    
+        @keyframes blink-caret {
+          from, to { border-color: transparent }
+          50% { border-color:  $orange }
+        }
+      }
+    }
+  } 
+}
+
+@media (prefers-color-scheme: dark) {
+  .splash {
+    background-color: $dark;
+
+    .bg {
+      background: no-repeat center url('../img/background-light.svg');
+      background-size: 3500px;
+    }
+    .headline-container .headline { 
+      h1 {
+        color: $light;
+      }
+    }
+  }
+}
