@@ -1,64 +1,9 @@
----
-page_type: sample
-languages:
-- csharp
-products:
-- dotnet
-description: "Add 150 character max description"
-urlFragment: "update-this-to-unique-url-stub"
----
+We are announcing the public preview of **Project Bonsai**: Microsoft's machine teaching service to create and optimize intelligence for industrial control systems. Project Bonsai is the first service component of Microsoft's vision to empower customers to build, operate, and manage autonomous systems. With **Project Bonsai** subject matter experts can innovate their most dynamic physical systems and processes without needing a background in AI. 
 
-# Official Microsoft Sample
+Machine teaching enables the ability to incorporate knowledge from experts rather than extracting knowledge from data alone. Through machine teaching, developers and engineers can specify desired outcomes or behaviors, concepts to be taught, and safety criteria that must be met. The machine teaching approach enables users to have a clear understanding of how the AI agents work and debug when they don't. These AI agents can be deployed in a manner that best suits the operational needs – to the edge, cloud, or the device.
 
-<!-- 
-Guidelines on README format: https://review.docs.microsoft.com/help/onboard/admin/samples/concepts/readme-template?branch=master
+We are also announcing **Project Moab**, a new open-source balancing robot to help engineers and developers learn how to build real-world autonomous control systems with Project Bonsai. Customers can 3D print the robot, and availability for purchase will be announced later in the year.
 
-Guidance on onboarding samples to docs.microsoft.com/samples: https://review.docs.microsoft.com/help/onboard/admin/samples/process/onboarding?branch=master
+Today we are expanding preview access to the first component of this platform in a preview program for developers to build autonomous systems with machine teaching. Visit [https://aka.ms/as/preview/preview]() to sign up for the preview.
 
-Taxonomies for products and languages: https://review.docs.microsoft.com/new-hope/information-architecture/metadata/taxonomies?branch=master
--->
-
-Give a short description for your sample here. What does it do and why is it important?
-
-## Contents
-
-Outline the file contents of the repository. It helps users navigate the codebase, build configuration and any related assets.
-
-| File/folder       | Description                                |
-|-------------------|--------------------------------------------|
-| `src`             | Sample source code.                        |
-| `.gitignore`      | Define what to ignore at commit time.      |
-| `CHANGELOG.md`    | List of changes to the sample.             |
-| `CONTRIBUTING.md` | Guidelines for contributing to the sample. |
-| `README.md`       | This README file.                          |
-| `LICENSE`         | The license for the sample.                |
-
-## Prerequisites
-
-Outline the required components and tools that a user might need to have on their machine in order to run the sample. This can be anything from frameworks, SDKs, OS versions or IDE releases.
-
-## Setup
-
-Explain how to prepare the sample once the user clones or downloads the repository. The section should outline every step necessary to install dependencies and set up any settings (for example, API keys and output folders).
-
-## Running the sample
-
-Outline step-by-step instructions to execute the sample and see its output. Include steps for executing the sample from the IDE, starting specific services in the Azure portal or anything related to the overall launch of the code.
-
-## Key concepts
-
-Provide users with more context on the tools and services used in the sample. Explain some of the code that is being used and how services interact with each other.
-
-## Contributing
-
-This project welcomes contributions and suggestions.  Most contributions require you to agree to a
-Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit https://cla.opensource.microsoft.com.
-
-When you submit a pull request, a CLA bot will automatically determine whether you need to provide
-a CLA and decorate the PR appropriately (e.g., status check, comment). Simply follow the instructions
-provided by the bot. You will only need to do this once across all repos using our CLA.
-
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
-For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
-contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+Visit [https://aka.ms/moab]() to learn more
