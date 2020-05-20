@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100;0,300;0,400;0,500;0,700;1,100;1,300;1,400;1,700&display=swap" rel="stylesheet"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="" /><link rel="stylesheet" href="/moab/build/app.8bfc0a0c.css" type="text/css"><script type="text/javascript">
+var sdkInstance="appInsightsSDK";window[sdkInstance]="appInsights";var aiName=window[sdkInstance],aisdk=window[aiName]||function(n){var o={config:n,initialize:!0},t=document,e=window,i="script";setTimeout(function(){var e=t.createElement(i);e.src=n.url||"https://az416426.vo.msecnd.net/scripts/b/ai.2.min.js",t.getElementsByTagName(i)[0].parentNode.appendChild(e)});try{o.cookie=t.cookie}catch(e){}function a(n){o[n]=function(){var e=arguments;o.queue.push(function(){o[n].apply(o,e)})}}o.queue=[],o.version=2;for(var s=["Event","PageView","Exception","Trace","DependencyData","Metric","PageViewPerformance"];s.length;)a("track"+s.pop());var r="Track",c=r+"Page";a("start"+c),a("stop"+c);var u=r+"Event";if(a("start"+u),a("stop"+u),a("addTelemetryInitializer"),a("setAuthenticatedUserContext"),a("clearAuthenticatedUserContext"),a("flush"),o.SeverityLevel={Verbose:0,Information:1,Warning:2,Error:3,Critical:4},!(!0===n.disableExceptionTracking||n.extensionConfig&&n.extensionConfig.ApplicationInsightsAnalytics&&!0===n.extensionConfig.ApplicationInsightsAnalytics.disableExceptionTracking)){a("_"+(s="onerror"));var p=e[s];e[s]=function(e,n,t,i,a){var r=p&&p(e,n,t,i,a);return!0!==r&&o["_"+s]({message:e,url:n,lineNumber:t,columnNumber:i,error:a}),r},n.autoExceptionInstrumented=!0}return o}(
+{
+  instrumentationKey:"5b9c9b83-684f-4954-a770-59b01f9df150"
+}
+);(window[aiName]=aisdk).queue&&0===aisdk.queue.length&&aisdk.trackPageView({});
+</script>
+
+    <title>Project Moab - Tutorials 1: Train a Brain to Balance a Ball</title>
+<body>
+    <div class="page-wrap">
+        <nav>
+  
+  <span class="hamburger"></span>
+  <ul>
+      <li>
+        <a href="/moab/">Project Moab</a>
+      </li>
+      <li>
+        <a href="/moab/tutorials/">Tutorials</a>
+      </li>
+      <li>
+         <a href="https://www.microsoft.com/en-us/ai/autonomous-systems-platform">Autonomous Systems</a>
+      </li>
+  </ul>
+</nav>
+
+<div class="content md">
+  <h1>Moab Tutorial 1: Train AI to Balance a Ball</h1>
+<p>Teach an AI brain to balance a ball in the center of a plate using a custom simulator and sample code.</p>
+<p><strong>Total time to complete</strong>: 45 minutes<br>
+<strong>Active time</strong>: 25 minutes<br>
+<strong>Machine training time</strong>: 20 minutes</p>
+<p><strong>Prerequisites</strong>: To complete this tutorial, you must have a Bonsai workspace provisioned on Azure. If you do not have one, go to <a href="https://aka.ms/ASGetStarted">aka.ms/ASGetStarted</a> to sign up for the Bonsai public preview.</p>
+<h2>Outline</h2>
+<!-- TOC depthfrom:2 depthto:2 updateonsave:false -->
+<ul>
+<li><a href="#intro">Step 1: Define the problem</a></li>
+<li><a href="#create">Step 2: Create a new brain</a></li>
+<li><a href="#inspect">Step 3: Inspect the brain</a></li>
+<li><a href="#goals">Step 4: Understand goals</a></li>
+<li><a href="#train">Step 5. Train the brain</a></li>
+<li><a href="#evaluate">Step 6: Evaluate training progress</a></li>
+<li><a href="#assess">Step 7: Assess the trained brain</a></li>
+<li><a href="#export">Step 8 (optional): Export and Deploy</a></li>
+<li><a href="#next-steps">Next steps</a></li>
+</ul>
+<!-- /TOC -->
+<p><a name="intro"></a></p>
+<h2>Step 1: Define the problem</h2>
+<p>Imagine you are holding a plate and trying to keep a ball balanced in the center.</p>
+<p>How would you do it?</p>
+<p>First, you observe the ball:</p>
+<ul>
+<li>You could track the movement visually.</li>
+<li>You could track the vibrations in the plate by feel.</li>
+<li>You could track the rolling sound.</li>
+</ul>
+<p>In observing the ball, you intuitively determine its <strong>current location and speed</strong>.</p>
+<p>Next, you act on the gathered information:</p>
+<ul>
+<li>If the ball is already in the center, hold the plate flat to keep it there.</li>
+<li>If the ball moves away from the center, adjust the plate angle to move the ball back.</li>
+</ul>
+<p>In adjusting the plate angle, you alter its <strong>pitch and roll</strong>.</p>
+<h3>Ball Balance using the Moab Device</h3>
+<p><img src="../../img/tutorials/1/moab-photo.png" alt="A photo of the Moab device"></p>
+<p>Microsoft Project Moab is a fully integrated system for users of all levels to learn and explore building autonomous intelligent controls using reinforcement learning through Project Bonsai's Machine Teaching platform. The device (shown in the previous image) has three arms powered by servo motors. These arms work in tandem to control the angle of the transparent plate to keep the ball balanced.</p>
+<img alt="Diagram of the Z-Up right hand coordinate system used by the Moab device." src="../../img/tutorials/1/moab-frame-of-reference.png" width="400">
+<p>The Moab device tracks and maps the the ball movement onto a standard 2D coordinate system. Looking at the front the of the device, the <strong>x-axis</strong> runs left-to-right, and the <strong>y-axis</strong> runs front-to-back, with the plate center at location (0, 0), and a radius of r.</p>
+<p>The same coordinate system is also used to define the two different tilt angles. Pitch is the plate angle about the x-axis, roll is the plate angle about the y-axis. A perfectly level plate would have pitch and roll of (0, 0).</p>
+<p>The trained AI must learn how to adjust the plate pitch and roll to balance a ball using the following objectives:</p>
+<ol>
+<li>The ball position (x, y) will reach the plate center at (0, 0) and stay there.</li>
+<li>The ball position will not get near the plate edge at ( | (x, y) - (0, 0) | &lt;&lt; r).</li>
+</ol>
+<p>Now that you have identified the problem and defined the objectives, use machine teaching to train an AI to balance a ball.</p>
+<p><a name="create"></a></p>
+<h2>Step 2: Create a new brain</h2>
+<img alt="A screenshot of the Bonsai home screen" src="../../img/tutorials/1/bonsai-home.png" width="800">
+<p>To start a new Moab brain:</p>
+<ol>
+<li>Create an account or sign into Bonsai.</li>
+<li>Click the <strong>Moab</strong> icon in the <strong>Getting started</strong> panel, or <strong>Create Brain</strong> and <strong>Moab demo</strong>, as in the previous illustration.</li>
+<li>Name your new brain (e.g., &quot;Moab Tutorial 1&quot;).</li>
+<li>Click <strong>Create</strong></li>
+</ol>
+<p><a name="inspect"></a></p>
+<h2>Step 3: Inspect the brain</h2>
+<p>After creating the Moab sample brain and simulator sample, Bonsai automatically opens the teaching interface, which is prepopulated with everything you need to get started.</p>
+<img alt="Screenshot of the Bonsai teaching interface" src="../../img/tutorials/1/tutorial1-ui-sections.png" width="800">
+<p>The teaching interface has three areas, as in the previous illustration:</p>
+<ul>
+<li>The <strong>Navigation sidebar</strong> lists all your brains and simulators.</li>
+<li>The <strong>Coding panel</strong> is your Inkling code editor. Inkling is a machine teaching proprietary language, designed to focus on what you want to teach while handling the AI details for you.</li>
+<li>The <strong>Graphing panel</strong> displays an interactive, graphical representation of the observable state, concept, and <code>SimAction</code> currently defined in the coding panel.</li>
+</ul>
+<h3>Inspect the state node: ObservableState</h3>
+<img alt="screenshot of ObservableState in the Graphing panel" src="../../img/tutorials/1/concept-graph-observablestate-highlight.png" width="200">
+<p>Click the <code>ObservableState</code>node to jump to the relevant part of your Inkling code, as in the previous illustration.</p>
+<p><code>ObservableState</code> defines what information the brain is sent during every simulation iteration. For your ball balancing problem, the Moab device tracks the ball position and velocity. So, your simulation <code>ObservableState</code> is:</p>
+<ul>
+<li><code>ball_x</code>, <code>ball_y</code>: the (x, y) ball position.</li>
+<li><code>ball_vel_x</code>, <code>ball_vel_y</code>: the x and y ball velocity components.</li>
+</ul>
+<pre><code># State received from the simulator after each iteration
+type ObservableState {
+    # Ball X,Y position
+    ball_x: number&lt;-RadiusOfPlate .. RadiusOfPlate&gt;,
+    ball_y: number&lt;-RadiusOfPlate .. RadiusOfPlate&gt;,
+
+    # Ball X,Y velocity
+    ball_vel_x: number&lt;-MaxVelocity .. MaxVelocity&gt;,
+    ball_vel_y: number&lt;-MaxVelocity .. MaxVelocity&gt;,
+}
+</code></pre>
+<p>Each state has an associated expected range. In the previous code snippet, the <code>ball_x</code> and <code>ball_y</code> locations are bounded by the plate radius. If provided, ranges can reduce AI training time.</p>
+<h3>Inspect the actions node: SimAction</h3>
+<img alt="screenshot of SimAction in the Graphing panel" src="../../img/tutorials/1/concept-graph-simaction-highlight.png" width="200">
+<p>Click on the <code>SimAction</code> node to jump to the next part of your Inkling code.</p>
+<p><code>SimAction</code> defines the ways that the brain interacts with the simulated environment. In your simulation, this is reflected by the following variables:</p>
+<ul>
+<li><code>input_pitch</code>: a value that sets the plate angle along the X axis
+<ul>
+<li>-1 means tilt all the way forwards (away from the joystick), +1 means tilt all the way backwards (toward the joystick)</li>
+</ul>
+</li>
+<li><code>input_roll</code>: a value that sets the target plate angle along the Y axis
+<ul>
+<li>-1 means tilt all the way to the left, +1 means tilt all the way to the right</li>
+</ul>
+</li>
+</ul>
+<p>As highlighted before, the Moab device tilts the plate with two orthogonal angles (<code>SimAction</code>). An onboard algorithm translates this action to the three servo-powered arms, achieving the desired tilt.</p>
+<pre><code># Action provided as output by policy and sent as
+# input to the simulator
+type SimAction {
+    # Range -1 to 1 is a scaled value that represents
+    # the full plate rotation range supported by the hardware.
+    input_pitch: number&lt;-1 .. 1&gt;, # rotate about x-axis
+    input_roll: number&lt;-1 .. 1&gt;, # rotate about y-axis
+}
+</code></pre>
+<h3>Inspect the concept node: MoveToCenter</h3>
+<p>Click on the <code>MoveToCenter</code>concept node to define what the AI should learn, as in the following example:</p>
+<p>A <code>goal</code> describes what you want the brain to learn using one or more objectives (previously defined), as in the following example:</p>
+<pre><code># Define a concept graph with a single concept
+graph (input: ObservableState) {
+    concept MoveToCenter(input): SimAction {
+        curriculum {
+            # The source of training for this concept is a simulator that
+            #  - can be configured for each episode using fields defined in SimConfig,
+            #  - accepts per-iteration actions defined in SimAction, and
+            #  - outputs states with the fields defined in SimState.
+            source simulator (Action: SimAction, Config: SimConfig): ObservableState {
+            }
+...
+</code></pre>
+<p>A <code>concept</code> defines what the AI needs to learn and the <code>curriculum</code> is how it learns. Your <code>MoveToCenter</code>concept will receive simulator states and respond with actions.</p>
+<p><a name="goals"></a></p>
+<h2>Step 4: Understand goals</h2>
+<p>We previously defined two objectives for our brain:</p>
+<ul>
+<li>The ball position will not get near the plate edge at ( | (x, y) - (0, 0) | &lt;&lt; r).</li>
+<li>The ball position (x, y) will reach the plate center at (0, 0) and stay there.</li>
+</ul>
+<p>A <code>goal</code> describes what you want the brain to learn using one or more objectives, as in the following example:</p>
+<pre><code># The training goal has two objectives:
+#   - don't let the ball fall off the plate 
+#   - drive the ball to the center of the plate
+goal (State: ObservableState) {
+    
+    avoid `Fall Off Plate`:
+        Math.Hypot(State.ball_x, State.ball_y) in Goal.RangeAbove(RadiusOfPlate * 0.8)
+
+    drive `Center Of Plate`:
+        [State.ball_x, State.ball_y] in Goal.Sphere([0, 0], CloseEnough)
+}
+</code></pre>
+<p>As the brain trains, it attempts to simultaneously meet all the defined objectives during each episode.</p>
+<p>Available goal objectives include:</p>
+<ul>
+<li><code>avoid</code>: Avoid a defined region.</li>
+<li><code>drive</code>: Get to a target as quickly as possible and stay in that place.</li>
+<li><code>reach</code>: Get to a target as quickly as possible.</li>
+</ul>
+<p>For your objectives, use <code>avoid</code> and <code>drive</code>, as follows:</p>
+<h3>Objective: Avoid falling off the plate</h3>
+<p>To teach the brain to keep the ball on the plate, use <code>avoid</code> to define an objective called <code>Fall Off Plate</code>, as in the following code snippet:</p>
+<pre><code>avoid `Fall Off Plate`:
+    Math.Hypot(State.ball_x, State.ball_y) in Goal.RangeAbove(RadiusOfPlate * 0.8)
+</code></pre>
+<p>An <code>avoid</code> objective asks the brain to learn to avoid a certain region of states. Your objective states that the ball's distance from the center must not reach values above 80% of the plate radius. This will teach the brain to keep the ball on the plate.</p>
+<h3>Objective: Move the ball to the center of the plate</h3>
+<p>To teach the brain to move the ball to a specific spot and keep it there, use <code>drive</code> to define a objective called <code>Center Of Plate</code>, as in the following code snippet:</p>
+<pre><code>drive `Center Of Plate`:
+    [State.ball_x, State.ball_y] in Goal.Sphere([0, 0], CloseEnough)
+</code></pre>
+<p>A <code>drive</code> objective asks the brain to learn to reach to a target as soon as possible and stay there. In this case, the target is for the ball's X and Y coordinates (<code>state.ball_x</code> and <code>state.ball_y</code>) to stay within <code>CloseEnough</code> radial distance from the plate center.</p>
+<p><a name="train"></a></p>
+<h2>Step 5. Train the brain</h2>
+<p>After defining the brain objectives, Click the <strong>Train</strong> button to start training and open the Train UI, as seen in the following screenshot:</p>
+<img alt="Screenshot of Bonsai UI starting training" src="../../img/tutorials/1/tutorial1-starting-training.png" width="800"/>
+<p>When training starts, Bonsai launches multiple Moab simulator instances in the cloud. The training progress is reflected in several UI sections, as seen in the following screenshot:</p>
+<img alt="Screenshot of Bonsai UI training" src="../../img/tutorials/1/tutorial1-training-started.png" width="800"/>
+<h3>Section 1: Training performance plot</h3>
+<p>Start with the chart at the top of the data panel that displays the <strong>performance plot</strong>, as seen in the following screenshot:</p>
+<img alt="Screenshot of the goal satisfaction performance chart" src="../../img/tutorials/1/tutorial1-training-started-perf.png" width="400">
+<p>This shows the average performance of the brain from test episodes that are regularly run during training. (A test episode evaluates the brain's performance without the exploratory actions used during training to help the brain learn.)</p>
+<p>Next, inspect the goal satisfaction plots. Goal satisfaction plots display the brains' achievement progress for each objective. For example, 100% Goal Satisfaction for <code>Fall Off Plate</code> indicates that the brain has learned to consistently keep the ball on the plate. The overall <strong>Goal Satisfaction</strong> line is the average goal satisfactions across all the objectives. Select several other performance metrics using the Y-axis selector.</p>
+<p>As it trains, the brain improves at accomplishing the goals you defined. The goal satisfaction values should eventually reach close to 100%.</p>
+<h3>Section 2: Simulator node</h3>
+<p>The teaching graph has a new <strong>Simulator</strong> node in the graphing panel, as seen in the following screenshot:</p>
+<img alt="Screenshot of teaching graph with a simulator node" src="../../img/tutorials/1/tutorial1-concept-graph-training-mode.png" width="300"/>
+<p>The simulator node displays the following:</p>
+<ul>
+<li>the number of simulation iterations running in parallel.</li>
+<li>the overall iterations per second.</li>
+</ul>
+<p>During training, the concept node displays the latest goal satisfaction.</p>
+<h3>Section 3: Moab Device Visualization</h3>
+<p>There is a live visualization of the Moab simulator below the performance plot, as seen in the following screenshot:</p>
+<img alt="3D visualization of Moab simulator" src="../../img/tutorials/1/tutorial1-visualizer.png" width="800"/>
+<p>In addition to the 3D ball and hardware, the visualization displays the following:</p>
+<ul>
+<li>The ball velocity (the blue arrow projected onto the plate)</li>
+<li>The estimated ball position (blue circle projected on to the plate under the ball).</li>
+</ul>
+<p>Click and drag to rotate the visualization view angle.</p>
+<p>Below the visualization is an interactive graph that plots training values, as seen in the following screenshot:</p>
+<img alt="Screenshot of live-streaming state and action chart" src="../../img/tutorials/1/tutorial1-visualizer-and-sim-chart.png" width="800"/>
+<p>Click <code>ball_x</code> and <code>ball_y</code> to display the ball X and Y coordinates. The vertical dashed lines show the stop and start of new episodes.</p>
+<p>As the brain learns to keep the ball from falling off the plate, each episode will get longer. As the brain learns to center the ball,  <code>ball_x</code> and <code>ball_y</code> will reach zero every episode.</p>
+<p>While you wait for the brain to train, try charting other values.</p>
+<p><a name="evaluate"></a></p>
+<h2>Step 6: Evaluate training progress</h2>
+<h3>When should we stop training?</h3>
+<p>The <strong>Goal Satisfaction %</strong> trends upwards during the first 100k – 200k iterations. Afterwards, the various performance lines will converge and flatten. After training for an hour or so, you should see a plot similar to the following screenshot:</p>
+<img alt="Screenshot of converged goal satisfaction chart" src="../../img/tutorials/1/tutorial1-training-converged.png" width="800"/>
+<p>Here, performance has reached a peak level and additional training time does not seem to yield any improvement.</p>
+<p><strong>Training can be stopped when you notice that the Goal Satisfaction has not made any meaningful progress, which should occur before 500k iterations.</strong> Hitting the Train button afterwards will resume training.</p>
+<p>Congratulations! You have successfully trained a brain to balance the ball!</p>
+<p><a name="assess"></a></p>
+<h2>Step 7: Assess the trained brain</h2>
+<p>Click the <strong>Start Assessment</strong> button on the Train page, and the following sub-window should appear.</p>
+<img alt="Screenshot of assessment mode loading state" src="../../img/tutorials/1/tutorial1-starting-assessment.png" width="800"/>
+<p>After the simulator starts, the visualizer and streaming charts from training are displayed. In assessment mode, the brain is tested using the same random scenarios defined in the Inkling lesson.</p>
+<img alt="Screenshot of assessment mode loading state" src="../../img/tutorials/1/tutorial1-assessment.png" width="800"/>
+<p><a name="export"></a></p>
+<h2>Step 8: Export and Deploy</h2>
+<p>Here is a video of a trained brain from this tutorial, deployed on the Moab hardware:</p>
+<iframe width="800" height="450" src="https://www.youtube.com/embed/iMDVCL7W9xs" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<p>Once Moab kits ship, look here for instructions on deploying the trained brain onto your bot.</p>
+<p><a name="next-steps"></a></p>
+<h2>Next steps</h2>
+<p>Congratulations! You trained a brain that can balance a ball on a plate, and can be deployed on real hardware. In <a href="../2-robustness/index.html">Tutorial 2</a>, you will learn how to use domain randomization to make the deployed brain more robust to differences between simulation and real life.</p>
+<h2>Feedback and discussion</h2>
+<p>Discuss this tutorial and ask questions in the <a href="https://aka.ms/as/forums">Bonsai community forums</a>.</p>
+<p>We would appreciate your feedback! <a href="https://aka.ms/as/productfeedback">Submit feedback and product feature requests</a>.</p>
+
+</div>
+<script src="/moab/build/runtime.bac6aa15.js"></script><script src="/moab/build/app.e9c32ec1.js"></script></div>
+    <footer>
+        <div class="page-wrap">
+            <div class="section">
+                Copyright &copy; 2020 - Microsoft
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

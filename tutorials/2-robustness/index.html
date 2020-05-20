@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100;0,300;0,400;0,500;0,700;1,100;1,300;1,400;1,700&display=swap" rel="stylesheet"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="" /><link rel="stylesheet" href="/moab/build/app.8bfc0a0c.css" type="text/css"><script type="text/javascript">
+var sdkInstance="appInsightsSDK";window[sdkInstance]="appInsights";var aiName=window[sdkInstance],aisdk=window[aiName]||function(n){var o={config:n,initialize:!0},t=document,e=window,i="script";setTimeout(function(){var e=t.createElement(i);e.src=n.url||"https://az416426.vo.msecnd.net/scripts/b/ai.2.min.js",t.getElementsByTagName(i)[0].parentNode.appendChild(e)});try{o.cookie=t.cookie}catch(e){}function a(n){o[n]=function(){var e=arguments;o.queue.push(function(){o[n].apply(o,e)})}}o.queue=[],o.version=2;for(var s=["Event","PageView","Exception","Trace","DependencyData","Metric","PageViewPerformance"];s.length;)a("track"+s.pop());var r="Track",c=r+"Page";a("start"+c),a("stop"+c);var u=r+"Event";if(a("start"+u),a("stop"+u),a("addTelemetryInitializer"),a("setAuthenticatedUserContext"),a("clearAuthenticatedUserContext"),a("flush"),o.SeverityLevel={Verbose:0,Information:1,Warning:2,Error:3,Critical:4},!(!0===n.disableExceptionTracking||n.extensionConfig&&n.extensionConfig.ApplicationInsightsAnalytics&&!0===n.extensionConfig.ApplicationInsightsAnalytics.disableExceptionTracking)){a("_"+(s="onerror"));var p=e[s];e[s]=function(e,n,t,i,a){var r=p&&p(e,n,t,i,a);return!0!==r&&o["_"+s]({message:e,url:n,lineNumber:t,columnNumber:i,error:a}),r},n.autoExceptionInstrumented=!0}return o}(
+{
+  instrumentationKey:"5b9c9b83-684f-4954-a770-59b01f9df150"
+}
+);(window[aiName]=aisdk).queue&&0===aisdk.queue.length&&aisdk.trackPageView({});
+</script>
+
+    <title>Project Moab - Tutorial 2: Robust Balancing via Domain Randomization</title>
+<body>
+    <div class="page-wrap">
+        <nav>
+  
+  <span class="hamburger"></span>
+  <ul>
+      <li>
+        <a href="/moab/">Project Moab</a>
+      </li>
+      <li>
+        <a href="/moab/tutorials/">Tutorials</a>
+      </li>
+      <li>
+         <a href="https://www.microsoft.com/en-us/ai/autonomous-systems-platform">Autonomous Systems</a>
+      </li>
+  </ul>
+</nav>
+
+<div class="content md">
+  <h1>Moab Tutorial 2: Robust Balancing via Domain Randomization</h1>
+<p>In Tutorial 1, you taught an AI to balance a ball on a plate. If you deployed it on real hardware, you observed that it works, but does not react very quickly, and it's easy to push the ball off the plate. In this tutorial, you will teach an AI to balance a ball more robustly.</p>
+<p><strong>Total time to complete</strong>: 60 minutes<br>
+<strong>Active time</strong>: 20 minutes<br>
+<strong>Machine training time</strong>: 40 minutes</p>
+<p><strong>Prerequisites</strong>: To complete this tutorial, you must have a Bonsai workspace provisioned on Azure. If you do not have one, go to <a href="https://aka.ms/ASGetStarted">aka.ms/ASGetStarted</a> to sign up for the Bonsai public preview.</p>
+<h2>Outline</h2>
+<ul>
+<li><a href="#intro">Step 1: Intro to Domain Randomization</a></li>
+<li><a href="#vary">Step 2: Choose Physical Parameters to Vary</a></li>
+<li><a href="#new">Step 3: Start a New Brain</a></li>
+<li><a href="#dr">Step 4: Using Lessons to Implement DR</a></li>
+<li><a href="#newlesson">Step 5. Implement New Lesson</a></li>
+<li><a href="#experimentation">Step 6. Experimentation Tips</a></li>
+<li><a href="#prediction">Step 7: Assess Performance of the Trained Brain</a></li>
+<li><a href="#deploy">Step 8 (optional): Export and Deploy</a></li>
+<li><a href="#nextsteps">Next steps</a></li>
+</ul>
+<p><a name="intro"></a></p>
+<h2>Step 1: Intro to Domain Randomization</h2>
+<p>Training an AI in simulation is much easier and faster than training on real hardware: there are no safety concerns, and no need to build, maintain, and continually reset physical training environments. Many simulators can be run in parallel at low cost, making training a much faster process. However, there is a risk of training in simulation: a simulation almost never captures every aspect of the real world, and there is a tradeoff between simulator fidelity and its cost and simulation speed. If the AI learns to take advantage of imperfections in the simulation, it can work very well in simulation and poorly when deployed. This is often called the sim-to-real gap.</p>
+<p>This tutorial will use a technique called Domain Randomization (DR) to address the sim-to-real gap. DR works by introducing extra variability into the simulated environment during AI training. By doing so, the AI must learn a strategy that works in scenarios with different properties. This increases the chance that the trained AI will perform well in the real-world environment.</p>
+<p>The following steps will illustrate DR on Bonsai:</p>
+<ol>
+<li>Select physical parameters that are useful for DR</li>
+<li>Learn how to specify DR in Inkling by reviewing sample code.</li>
+<li>Use DR to train Moab to be more robust when balancing a ball</li>
+</ol>
+<p><a name="vary"></a></p>
+<h2>Step 2: Choose Physical Parameters to Vary</h2>
+<h3>Varying initial conditions</h3>
+<h1></h1>
+<p>When you place a ball on Moab, the following conditions can vary:</p>
+<ul>
+<li>plate position</li>
+<li>initial velocity</li>
+<li>initial plate tilt.</li>
+</ul>
+<p>The Moab simulator can model these initial conditions using the parameters in the following table:</p>
+<table>
+<thead>
+<tr>
+<th><strong>Parameter Name</strong></th>
+<th><strong>Units</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>initial_pitch</td>
+<td>Scalar between -1, +1</td>
+<td>Normalized initial pitch angle of plate</td>
+</tr>
+<tr>
+<td>initial_roll</td>
+<td>Scalar between -1, +1</td>
+<td>Normalized initial roll angle of plate</td>
+</tr>
+<tr>
+<td>initial_x</td>
+<td>Meters</td>
+<td>Initial X position of ball</td>
+</tr>
+<tr>
+<td>initial_y</td>
+<td>Meters</td>
+<td>Initial Y position of ball</td>
+</tr>
+<tr>
+<td>initial_vel_x</td>
+<td>Meters/Sec</td>
+<td>Initial X velocity of ball</td>
+</tr>
+<tr>
+<td>initial_vel_y</td>
+<td>Meters/Sec</td>
+<td>Initial Y velocity of ball</td>
+</tr>
+</tbody>
+</table>
+<h3>Varying environmental properties</h3>
+<p>By default, the Moab simulator simulates a fixed size and weight ping-pong ball. The ball radius(<code>ball_radius</code>) and shell thickness (<code>ball_shell</code>) can be changed to alter the ball dynamics. The ratio between shell thickness and ball radius defines the ball thickness. The thicker the ball, the faster the acceleration. The following table details these simulator parameters:</p>
+<table>
+<thead>
+<tr>
+<th><strong>Parameter Name</strong></th>
+<th><strong>Units</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ball_radius</td>
+<td>Meters</td>
+<td>Radius of the ball (0.02 for Ping-Pong ball)</td>
+</tr>
+<tr>
+<td>ball_shell</td>
+<td>Meters</td>
+<td>Shell thickness of the ball (0.0002 for Ping-Pong ball)</td>
+</tr>
+</tbody>
+</table>
+<p><a name="new"></a></p>
+<h2>Step 3: Start a New Brain</h2>
+<img alt="bonsai home page" src="../../img/tutorials/img01.png" width="800"/>
+<p>Start a new brain for this tutorial.</p>
+<p>To start a new Moab brain:</p>
+<ol>
+<li>Create an account or sign into Bonsai.</li>
+<li>Click the <strong>Moab</strong> icon in the <strong>Getting started</strong> panel, or <strong>Create Brain</strong> and <strong>Moab demo</strong></li>
+<li>Name your new brain (e.g., &quot;Moab Tutorial 2&quot;).</li>
+<li>Click <strong>Create</strong></li>
+</ol>
+<p><a name="dr"></a></p>
+<h2>Step 4: Using Lessons to Implement DR</h2>
+<p>To implement DR, configure the simulated environment differently for each training episode. You do this in Inkling using a lesson. A lesson describes the set of scenarios the simulator can be  configured with at the beginning of each episode. You can vary initial conditions (such as positions and velocities), and environmental properties (such as object sizes, sensor accuracies, hardware properties).</p>
+<p>In the starting Moab Inkling, review the lesson in the <code>MoveToCenter</code> concept:</p>
+<p>Click on the concept node in the right panel to navigate to the Inkling code section defining the <code>MoveToCenter</code> concept.</p>
+<img src="../../img/tutorials/img02.png" alt="concept node in graphing panel" width="800"/>
+<p>The cursor should automatically scroll and highlight the following Inkling declaration:</p>
+<pre><code>graph (input: ObservableState) {
+    concept MoveToCenter(input): SimAction {
+        curriculum {
+            source MoabSim
+                ...
+                ...
+            }
+    ...
+    ...
+</code></pre>
+<p>Teaching the AI the <code>MoveToCenter</code> concept requires defining a goal and one or more lessons to teach that goal, as in the following code example:</p>
+<pre><code>lesson `Randomize Start` {
+    # Specify the configuration parameters that should be varied
+    # from one episode to the next during this lesson.
+    scenario {
+        initial_x: number&lt;-RadiusOfPlate * 0.5 .. RadiusOfPlate * 0.5&gt;,
+        initial_y: number&lt;-RadiusOfPlate * 0.5 .. RadiusOfPlate * 0.5&gt;,
+        initial_vel_x: number&lt;-0.02 .. 0.02&gt;,
+        initial_vel_y: number&lt;-0.02 .. 0.02&gt;,
+        initial_pitch: number&lt;-0.2 .. 0.2&gt;,
+        initial_roll: number&lt;-0.2 .. 0.2&gt;,
+    }
+}
+</code></pre>
+<p>Each scenario parameter is selected randomly at the start of each training episode. The previous example configuration initializes the ball position in the square with x and y between –0.5<em>r and 0.5</em>r, where r is the plate radius. Initial velocity is up to 0.02 m/s in each direction. This is quite slow. The initial roll and pitch go up to 20% of the maximum tilt (22 degrees).</p>
+<p><a name="newlesson"></a></p>
+<h2>Step 5. Implement New Lesson</h2>
+<p>Increase the difficulty of the lesson by increasing the ranges of existing scenario parameters, and domain randomizing the ball parameters.</p>
+<p>To add DR for the ball, you will perform the following steps:</p>
+<ul>
+<li>Add constants describing the ping pong ball</li>
+<li>Hook up additional configuration parameters for the simulator</li>
+<li>add the new parameters to the lesson to and increase the ranges on the others.</li>
+</ul>
+<h3>Increase parameter ranges</h3>
+<p>Increase the initial position up to 0.6 times the plate radius, and initial velocity up to 0.4 * MaxVelocity, as in the following code:</p>
+<pre><code> scenario {
+        initial_x: number&lt;-RadiusOfPlate * 0.6 .. RadiusOfPlate * 0.6&gt;,
+        initial_y: number&lt;-RadiusOfPlate * 0.6 .. RadiusOfPlate * 0.6&gt;,
+        initial_vel_x: number&lt;-MaxVelocity * 0.4 .. MaxVelocity * 0.4&gt;,
+        initial_vel_y: number&lt;-MaxVelocity * 0.4 .. MaxVelocity * 0.4&gt;,
+        initial_pitch: number&lt;-0.2 .. 0.2&gt;,
+        initial_roll: number&lt;-0.2 .. 0.2&gt;,
+    }
+</code></pre>
+<p>We could increase the pitch and roll limits as well. The initial angle turns out not to matter much because the Moab can change pitch and roll very quickly.</p>
+<h3>Add Constants</h3>
+<p>At the top of your Inkling, add the <code>PingPongRadius</code> and <code>PingPongShell</code> constants between the <code>RadiusOfPlate</code> and <code>MaxVelocity</code> constants using the following code:</p>
+<pre><code># Ping-Pong ball constants
+const PingPongRadius = 0.020 # m
+const PingPongShell = 0.0002 # m
+...
+</code></pre>
+<h3>Adding More Parameters in Simulator Configuration</h3>
+<p>Add the <code>ball_radius</code> and <code>ball_shell</code> parameters to the bottom of the <code>SimConfig</code> Inkling section, using the following code:</p>
+<pre><code>ball_radius: number, # Radius of the ball in (m)
+ball_shell: number, # Shell thickness of ball in (m), shell&gt;0, shell&lt;=radius
+</code></pre>
+<p>Any simulator parameters that aren't included in <code>SimConfig</code> are assigned a default value by the simulator.</p>
+<blockquote>
+<p><strong>Note:</strong> You can see the full list of available state, action, and configuration variables for a simulator by opening the <code>Moab</code> simulator in the <strong>Navigation Side Panel</strong>.</p>
+</blockquote>
+<h3>Domain Randomize Ball Radius and Ball Shell</h3>
+<p>Use the new <code>SimConfig</code> parameters in a lesson. Add <code>ball_radius</code> and <code>ball_shell</code> to the bottom of the <code>Domain Randomize</code> lesson with the following lines of code:</p>
+<pre><code>ball_radius: number&lt;PingPongRadius * 0.8 .. PingPongRadius * 1.2&gt;,
+ball_shell: number&lt;PingPongShell * 0.8 .. PingPongShell * 1.2&gt;,
+</code></pre>
+<p>By adding this change, the AI will strive to achieve the same goal but uses a ball with a randomly selected radius and shell thickness (between 80% and 120%) for every new episode.</p>
+<p>To start the experiment, click  <strong>Train</strong>. The Moab simulator will start automatically based on the <code>package</code> statement in Inkling.</p>
+<p><a name="experimentation"></a></p>
+<h2>Step 6. Experimentation Tips</h2>
+<p>Successfully developing a trained AI often requires multiple rounds of experimentation. Some experiments may be successful, reach a dead end, or inspire completely different courses of investigation. The Bonsai interface has features to assist your experimentation.</p>
+<h3>Training Multiple Different Brains in Parallel</h3>
+<p>The Navigation Panel on the left shows all brains in your workspace, as in the following illustration:</p>
+<img src="../../img/tutorials/img03.png" alt="Brains list in navigation panel" width="250"/>
+<blockquote>
+<p><strong>Note:</strong> If you have an Azure free account, the quota restrictions for Azure Container Instances (used to run the simulators) will prevent training more than one brain a time. Upgrade to a pay-as-you-go account or use an organizational account with higher quotas to take full advantage of Bonsai's experimentation features.</p>
+</blockquote>
+<p>To train multiple brains, select an existing brain and then click <strong>Train</strong> to start training. Each brain will contain the latest corresponding Inkling code. As brains train, the Brains Panel will also display the latest performance.</p>
+<p>Rename your brain or add an experiment description by right clicking on a brain and selecting <strong>Info</strong>, as in the following illustrations:</p>
+<img src="../../img/tutorials/img04.png" alt="right-click context menu for a brain" width="250"/>
+<img src="../../img/tutorials/img05.png" alt="Brains info view" width="268"/>
+<h3>Versioning</h3>
+<p>The Bonsai interface enables you to keep track of different brain versions. If the Inkling code is changed in a way that requires a reset, a training start will automatically generate a new brain version.</p>
+<img src="../../img/tutorials/img06.png" alt="Brains versions list" width="250"/>
+<p>Write per-version notes or copy a brain version by right clicking on it.</p>
+<img src="../../img/tutorials/img07.png" alt="Brain version context menu" width="250"/>
+<p><a name="prediction"></a></p>
+<h2>Step 7: Assess Performance of the Trained Brain</h2>
+<p>Once training is stopped, run tests on the trained AI.</p>
+<p>Click the <strong>Start Assessment</strong> button on the <strong>Train</strong> tab, and the following sub-window will appear after a minute or so.</p>
+<img src="../../img/tutorials/img08.png" alt="brain assessment window" width="800"/>
+<p>In this mode, the trained brain is tested continuously, initializing each episode using the domain randomization defined in Inkling. Monitor performance using the Moab visualizer and line charts.</p>
+<p><a name="deploy"></a></p>
+<h2>Step 8 (optional): Export and Deploy</h2>
+<p>The following video shows a trained brain from this tutorial:</p>
+<iframe width="951" height="535" src="https://www.youtube.com/embed/apgVxW8-S7M" frameborder="0" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<p>Once Moab kits ship, look here for instructions on deploying the trained brain onto your bot.</p>
+<p><a name="nextsteps"></a></p>
+<h2>Next steps</h2>
+<p>Congratulations! You trained a brain that can robustly balance a ball on real hardware. In <a href="../3-fixed-obstacle/index.html">Tutorial 3</a>, you will learn how to use additional goals to make the ball balance while avoiding an obstacle.</p>
+<h2>Feedback and discussion</h2>
+<p>Discuss this tutorial and ask questions in the <a href="https://aka.ms/as/forums">Bonsai community forums</a>.</p>
+<p>We would appreciate your feedback! <a href="https://aka.ms/as/productfeedback">Submit feedback and product feature requests</a>.</p>
+
+</div>
+<script src="/moab/build/runtime.bac6aa15.js"></script><script src="/moab/build/app.e9c32ec1.js"></script></div>
+    <footer>
+        <div class="page-wrap">
+            <div class="section">
+                Copyright &copy; 2020 - Microsoft
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

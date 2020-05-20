@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100;0,300;0,400;0,500;0,700;1,100;1,300;1,400;1,700&display=swap" rel="stylesheet"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="" /><link rel="stylesheet" href="/moab/build/app.8bfc0a0c.css" type="text/css"><script type="text/javascript">
+var sdkInstance="appInsightsSDK";window[sdkInstance]="appInsights";var aiName=window[sdkInstance],aisdk=window[aiName]||function(n){var o={config:n,initialize:!0},t=document,e=window,i="script";setTimeout(function(){var e=t.createElement(i);e.src=n.url||"https://az416426.vo.msecnd.net/scripts/b/ai.2.min.js",t.getElementsByTagName(i)[0].parentNode.appendChild(e)});try{o.cookie=t.cookie}catch(e){}function a(n){o[n]=function(){var e=arguments;o.queue.push(function(){o[n].apply(o,e)})}}o.queue=[],o.version=2;for(var s=["Event","PageView","Exception","Trace","DependencyData","Metric","PageViewPerformance"];s.length;)a("track"+s.pop());var r="Track",c=r+"Page";a("start"+c),a("stop"+c);var u=r+"Event";if(a("start"+u),a("stop"+u),a("addTelemetryInitializer"),a("setAuthenticatedUserContext"),a("clearAuthenticatedUserContext"),a("flush"),o.SeverityLevel={Verbose:0,Information:1,Warning:2,Error:3,Critical:4},!(!0===n.disableExceptionTracking||n.extensionConfig&&n.extensionConfig.ApplicationInsightsAnalytics&&!0===n.extensionConfig.ApplicationInsightsAnalytics.disableExceptionTracking)){a("_"+(s="onerror"));var p=e[s];e[s]=function(e,n,t,i,a){var r=p&&p(e,n,t,i,a);return!0!==r&&o["_"+s]({message:e,url:n,lineNumber:t,columnNumber:i,error:a}),r},n.autoExceptionInstrumented=!0}return o}(
+{
+  instrumentationKey:"5b9c9b83-684f-4954-a770-59b01f9df150"
+}
+);(window[aiName]=aisdk).queue&&0===aisdk.queue.length&&aisdk.trackPageView({});
+</script>
+
+    <title>Project Moab - Tutorial 3: Balance with a Fixed Obstacle</title>
+<body>
+    <div class="page-wrap">
+        <nav>
+  
+  <span class="hamburger"></span>
+  <ul>
+      <li>
+        <a href="/moab/">Project Moab</a>
+      </li>
+      <li>
+        <a href="/moab/tutorials/">Tutorials</a>
+      </li>
+      <li>
+         <a href="https://www.microsoft.com/en-us/ai/autonomous-systems-platform">Autonomous Systems</a>
+      </li>
+  </ul>
+</nav>
+
+<div class="content md">
+  <h1>Moab Tutorial 3: Balance with a Fixed Obstacle</h1>
+<p>Teach an AI to balance a ball in the center of a plate with Bonsai, a predefined simulator, and sample code.</p>
+<p><strong>Total time to complete</strong>: 3 hours<br>
+<strong>Active time</strong>: 25 minutes<br>
+<strong>Machine training time</strong>: 2.5 hours</p>
+<p><strong>Prerequisites</strong>: To complete this tutorial, you must have a Bonsai workspace provisioned on Azure. If you do not have one, go to <a href="https://aka.ms/ASGetStarted">aka.ms/ASGetStarted</a> to sign up for the Bonsai public preview.</p>
+<h2>Outline</h2>
+<ul>
+<li><a href="#problem">Step 1: Define the problem</a></li>
+<li><a href="#start">Step 2: Start a new brain</a></li>
+<li><a href="#hole">Step 3: Define hole location</a></li>
+<li><a href="#states">Step 4. Adding additional simulator states</a></li>
+<li><a href="#objective">Step 5. Add a new objective</a></li>
+<li><a href="#train">Step 6: Train</a></li>
+<li><a href="#predictions">Step 7: Running predictions on trained brain</a></li>
+<li><a href="#export">Step 8 (optional): Export and deploy</a></li>
+<li><a href="#nextsteps">Next steps</a></li>
+<li><a href="#feedback">Give us Feedback</a></li>
+</ul>
+<p><a name="problem"></a></p>
+<h2>Step 1: Define the problem</h2>
+<p>Imagine that once you completed training the Moab device to balance a ball, someone decides to swap the plate you are holding with a new plate and poses a new challenge. The new plate is the same size but contains a hole. The new challenge is to balance the ball to the center but keep the ball away from landing in the hole, and a solution needs to be developed as soon as possible.</p>
+<p>How does this added complexity change your approach? How would you translate a new strategy and teach a machine to do this?</p>
+<p>The machine teaching tools on the Bonsai platform are designed to tackle situations like this. In this tutorial, you will learn how to naturally and efficiently translate this new requirement and solve this more complex problem.</p>
+<p><a name="start"></a></p>
+<h2>Step 2: Start a new brain</h2>
+<img src="../../img/tutorials/3/bonsai-home.png" alt="Select Moab from list" width="800"/>
+<p>To build your brain:</p>
+<ol>
+<li><a href="https://preview.bons.ai">Sign into the Bonsai UI</a>.</li>
+<li>Select <strong>Moab</strong> from the list of demo brains from the <strong>Getting Started</strong>
+dialog.</li>
+<li>Name your new brain (for example, &quot;Moab Tutorial 3&quot;).</li>
+<li>Click <strong>Create Brain</strong> to load the sample brain and simulator.</li>
+<li>Start from the <a href="http://github.com/BonsaiAI/moabsim-py/moab_tutorial_2.ink">Inkling for tutorial 2</a>. Copy and paste it into the Inkling editor, replacing the default Inkling.</li>
+</ol>
+<p><a name="hole"></a></p>
+<h2>Step 3: Define hole location</h2>
+<h3>Add obstacle configuration</h3>
+<p>To start, simulate the scenario. The Moab simulator can model one obstacle, represented as a circular region on the plate. These are the Moab simulator parameters used to set up obstacles:</p>
+<table>
+<thead>
+<tr>
+<th><strong>Parameter Name</strong></th>
+<th><strong>Units</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>obstacle_radius</td>
+<td>Meters</td>
+<td>Radius of the circular obstacle region</td>
+</tr>
+<tr>
+<td>obstacle_pos_x</td>
+<td>Meters</td>
+<td>Center X location of circle region</td>
+</tr>
+<tr>
+<td>obstacle_pos_y</td>
+<td>Meters</td>
+<td>Center Y location of circle region</td>
+</tr>
+</tbody>
+</table>
+<p>Example 1: Values to create an avoid region at the center of the plate with radius of 2cm:</p>
+<ul>
+<li>obstacle_radius = 0.02</li>
+<li>obstacle_pos_x = 0.0</li>
+<li>obstacle_pos_y = 0.0</li>
+</ul>
+<p>Example 2: Values to create an avoid region centered 5 cm directly above the center of the plate with radius of 1 cm:</p>
+<ul>
+<li>obstacle_radius = 0.01</li>
+<li>obstacle_pos_x = 0.0</li>
+<li>obstacle_pos_y = 0.05</li>
+</ul>
+<p>Example 3: Values to create an avoid region centered 3 cm directly above the center of the plate with radius of 3 cm:</p>
+<ul>
+<li>obstacle_radius = 0.03</li>
+<li>obstacle_pos_x = -0.03</li>
+<li>obstacle_pos_y = 0.0</li>
+</ul>
+<p>Scroll to <code>SimConfig</code>, then add <code>obstacle_radius</code>, <code>obstacle_pos_x</code>, and <code>obstacle_pos_y</code> to the end of <code>SimConfig</code> as in the following code:</p>
+<pre><code># Obstacle information
+obstacle_radius: number,
+obstacle_pos_x: number,
+obstacle_pos_y: number,
+</code></pre>
+<h3>Pick a location for the obstacle</h3>
+<p>Use these new <code>SimConfig</code> parameters to configure the obstacle position and size. Put an obstacle with radius 1cm at (4cm, 4cm) and define a 1cm “cushion” -- how far from the obstacle you want the ball to stay. At the top of the Inkling file, define constants for these (remember that distances are in meters.)</p>
+<pre><code># Obstacle definitions
+const ObstacleRadius = 0.01
+const ObstacleLocationX = 0.04
+const ObstacleLocationY = 0.04
+
+# How far to stay from the obstacle
+const Cushion = 0.01
+</code></pre>
+<h3>Add obstacle config to the scenario</h3>
+<p>At the end of the <strong>Randomize Start</strong> lesson, add the following lines to set the obstacle position and size. Note that these are being set to constant values, so will not be randomized during training.</p>
+<pre><code>   # Configure obstacle parameters
+   obstacle_radius: ObstacleRadius,
+   obstacle_x: ObstacleLocationX,
+   obstacle_y: ObstacleLocationY,
+</code></pre>
+<p>Note that for some specified scenarios, our specified goal will be impossible to achieve. Since each variable in the scenario is randomized independently, it is possible that the ball will start on top of the obstacle or headed quickly toward it. These should not impede training—the AI will fail in impossible-to-satisfy scenarios and keep trying others. This will affect the achievable success rate – even a perfect brain will not be able to succeed 100% of the time.</p>
+<p><a name="states"></a></p>
+<h2>Step 4. Adding additional simulator states</h2>
+<p>Because the obstacle is fixed in this tutorial, the brain does not need to be passed information about the obstacle as part of the <code>ObservableState</code>. However, the brain does need the obstacle location during training. To support this, we will define a new type: <code>SimState</code>, which will include the distance and direction to the obstacle. We will use this in our goal definition to train the brain.</p>
+<p>The Moab simulator outputs the direction and distance from ball to obstacle. The obstacle distance is measured between the edge of the ball and the edge of the obstacle. Values less than 0 mean that the ball has hit the obstacle.
+To reveal these new states to the AI brain during training, In Inkling, copy <code>ObservableState</code> and rename it <code>SimState</code>, as in the following code:</p>
+<pre><code>type SimState {
+    # Ball X,Y position, noise applied
+    ball_x: number&lt;-RadiusOfPlate .. RadiusOfPlate&gt;,
+    ball_y: number&lt;-RadiusOfPlate .. RadiusOfPlate&gt;,
+
+    # Ball X,Y velocity, noise applied
+    ball_vel_x: number&lt;-MaxVelocity .. MaxVelocity&gt;,
+    ball_vel_y: number&lt;-MaxVelocity .. MaxVelocity&gt;,
+}
+</code></pre>
+<p>Next, add parameters <code>obstacle_direction</code> and <code>obstacle_distance</code> to the Inkling, as in the following code:</p>
+<pre><code>type SimState {
+    ...
+
+    # Obstacle data
+    obstacle_direction: number&lt;-Math.Pi .. Math.Pi&gt;,
+    obstacle_distance: number&lt;-2.0*RadiusOfPlate .. 2.0*RadiusOfPlate&gt;,
+}
+</code></pre>
+<p>Next, tell the system that the simulator will be sending us values of type <code>SimState</code>. Change <code>ObservableState</code> to <code>SimState</code> in the <code>source simulator</code> line in the <code>MoveToCenter</code> concept:</p>
+<pre><code>source simulator (Action: SimAction, Config: SimConfig): SimState {
+}
+</code></pre>
+<p>Because <code>ObservableState</code> is a subset of <code>SimState</code>, the brain will automatically pass only the observable values to the policy, and the final trained brain will only require <code>ObservableState</code> values to make its decisions.</p>
+<p><a name="objective"></a></p>
+<h2>Step 5. Add a new objective</h2>
+<p>Next, tell the AI that it should avoid the obstacle as it attempts to balance the ball. Add the following code after the <code>drive CenterOfPlate:</code> objective at the end of the <code>goal</code> statement inside the <code>curriculum</code>:</p>
+<pre><code>avoid HitObstacle: State.obstacle_distance in Goal.RangeBelow(Cushion)
+</code></pre>
+<p>That’s it! Now the AI will learn to avoid hitting the obstacle if it can.</p>
+<p><a name="train"></a></p>
+<h2>Step 6: train</h2>
+<blockquote>
+<p>[!IMPORTANT]
+Running simulations consumes Azure resources. Following the tutorial as
+written will charge your Azure subscription approximately 1.00 USD. Repeated
+training or running the training longer than recommended will result in
+additional cost.</p>
+</blockquote>
+<p>To start an experiment, click <strong>Train</strong>. The system will prompt you to select a simulator. Pick Moab.</p>
+<img alt="select simulator" src="../../img/tutorials/3/select-simulator.png" width="800"/>
+<p>Note: To have the Moab simulator start without prompting, you can add a package statement to the simulator statement in Inkling, as in the following code:</p>
+<pre><code>source simulator (Action: SimAction, Config: SimConfig): SimState {
+    # Automatically launch the simulator with this
+    # registered package name.
+    package &quot;Moab&quot;
+}
+</code></pre>
+<p>The system will automatically start simulators and start training. This problem is more complex than simply balancing, and may take 30 minutes or more to train. You should see a goal satisfaction plot similar to this:</p>
+<img alt="goal satisfaction plot" src="../../img/tutorials/3/converged.png" width="800"/>
+<p><a name="predictions"></a></p>
+<h2>Step 7: Running predictions on trained brain</h2>
+<p>Once training is stopped, you can run tests on the trained AI.</p>
+<p>Click the <strong>Start Assessment</strong> button on the <strong>Train</strong> page, and the following sub-window should appear:</p>
+<img alt="run assessment" src="../../img/tutorials/3/assessment.png" width="800"/>
+<p>In this mode, the trained brain is tested continuously, with each episode initialized using the domain randomization defined in Inkling. You can watch the Moab visualizer and line charts.</p>
+<p><a name="export"></a></p>
+<h2>Step 8 (optional): Export and deploy</h2>
+<p>Here is a video of a trained brain from this tutorial:</p>
+<iframe width="800" height="450" src="https://www.youtube.com/embed/nhICFwTaNfw" frameborder="0" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<p>Once Moab kits ship, look here for instructions on deploying the trained brain onto your bot.</p>
+<p><a name="nextsteps"></a></p>
+<h2>Next steps</h2>
+<p>Congratulations! You trained a brain that can robustly balance a ball on real hardware, while avoiding an obstacle. Look for more tutorials coming soon.</p>
+<p>In the meantime, try exploring on your own: can you train a brain to avoid obstacles at different locations?</p>
+<p><a name="feedback"></a></p>
+<h1>Give us feedback</h1>
+<p>We're just opening the platform to the public, and would really appreciate your feedback to help us improve!</p>
+<ul>
+<li><a target="_blank" href="https://forms.office.com/FormsPro/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbR0raY872u1NOixC0SQJoGFRUQlIwTjY2SEpXUkJHUzBDMTlHV1JNWlE3MC4u">Fill out the feedback survey!</a></li>
+<li><a href="https://aka.ms/as/productfeedback">Submit feedback and product feature requests</a>.</li>
+<li>Discuss this tutorial and ask questions in the <a href="https://aka.ms/as/forums">Bonsai community forums</a>.</li>
+</ul>
+<p>Thank you!</p>
+
+</div>
+<script src="/moab/build/runtime.bac6aa15.js"></script><script src="/moab/build/app.e9c32ec1.js"></script></div>
+    <footer>
+        <div class="page-wrap">
+            <div class="section">
+                Copyright &copy; 2020 - Microsoft
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

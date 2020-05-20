@@ -1,7 +1,13 @@
 {
-  "build/app.css": "/moab/build/app.7c3f02bd.css",
-  "build/app.js": "/moab/build/app.1251725d.js",
+  "build/app.css": "/moab/build/app.8bfc0a0c.css",
+  "build/app.js": "/moab/build/app.e9c32ec1.js",
   "build/runtime.js": "/moab/build/runtime.bac6aa15.js",
-  "build/images/background-dark.svg": "/moab/build/images/background-dark.3ea0b8da.svg",
-  "build/images/background-light.svg": "/moab/build/images/background-light.715855a7.svg"
+  "build/images/Hero 2_04-29-20.png": "/moab/build/images/Hero 2_04-29-20.d415392f.png",
+  "build/images/close.svg": "/moab/build/images/close.7b6151a2.svg",
+  "build/images/download.svg": "/moab/build/images/download.4028d3ba.svg",
+  "build/images/expand.svg": "/moab/build/images/expand.1e8ab6ef.svg",
+  "build/images/external.svg": "/moab/build/images/external.e9ca6099.svg",
+  "build/images/internal.svg": "/moab/build/images/internal.296cf920.svg",
+  "build/images/play.svg": "/moab/build/images/play.eabda9e1.svg",
+  "build/images/video.svg": "/moab/build/images/video.c1d815bd.svg"
 }
