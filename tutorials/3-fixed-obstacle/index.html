@@ -168,13 +168,17 @@ To reveal these new states to the AI brain during training, In Inkling, copy <co
 <pre><code>source simulator (Action: SimAction, Config: SimConfig): SimState {
 }
 </code></pre>
-<p>Because <code>ObservableState</code> is a subset of <code>SimState</code>, the brain will automatically pass only the observable values to the policy, and the final trained brain will only require <code>ObservableState</code> values to make its decisions.</p>
+<p>Because <code>ObservableState</code> is a subset of <code>SimState</code>, the brain will automatically pass only the observable values to the policy, and the final trained brain will only require <code>ObservableState</code> values to make its decisions. The goal definition can use the full <code>SimState</code>, so change <code>ObservableState</code> to <code>SimState</code> in the <code>goal</code> statement, as in the following code:</p>
+<pre><code>goal (State: SimState) {
+    ...
+</code></pre>
 <p><a name="objective"></a></p>
 <h2>Step 5. Add a new objective</h2>
 <p>Next, tell the AI that it should avoid the obstacle as it attempts to balance the ball. Add the following code after the <code>drive CenterOfPlate:</code> objective at the end of the <code>goal</code> statement inside the <code>curriculum</code>:</p>
 <pre><code>avoid HitObstacle: State.obstacle_distance in Goal.RangeBelow(Cushion)
 </code></pre>
 <p>That’s it! Now the AI will learn to avoid hitting the obstacle if it can.</p>
+<p><em>Note:</em> if you had any trouble completing the above steps, please tell us what went wrong in the <a href="https://aka.ms/as/forums">Bonsai community forums</a>, and copy the full Inkling from the <a href="https://github.com/BonsaiAI/moabsim-py/blob/master/moab_tutorial_2.ink">github repo</a> to continue.</p>
 <p><a name="train"></a></p>
 <h2>Step 6: Train</h2>
 <blockquote>
