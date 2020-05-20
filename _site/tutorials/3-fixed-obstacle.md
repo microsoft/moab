@@ -171,13 +171,13 @@ avoid HitObstacle: State.obstacle_distance in Goal.RangeBelow(Cushion)
 That’s it! Now the AI will learn to avoid hitting the obstacle if it can.
 
 <a name="train"></a>
-## Step 6: train
+## Step 6: Train
 
-> [!IMPORTANT]
-> Running simulations consumes Azure resources. Following the tutorial as
+
+> **NOTE: Running simulations consumes Azure resources. Following the tutorial as
 > written will charge your Azure subscription approximately 1.00 USD. Repeated
 > training or running the training longer than recommended will result in
-> additional cost.
+> additional cost.**
 
 
 
