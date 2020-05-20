@@ -174,7 +174,7 @@ avoid HitObstacle: State.obstacle_distance in Goal.RangeBelow(Cushion)
 
 That’s it! Now the AI will learn to avoid hitting the obstacle if it can. 
 
-*Note:* if you had any trouble completing the above steps, please tell us what went wrong in the [Bonsai community forums](https://aka.ms/as/forums), and copy the full Inkling from the [github repo](https://github.com/BonsaiAI/moabsim-py/blob/master/moab_tutorial_2.ink) to continue.
+*Note:* if you had any trouble completing the above steps, please tell us what went wrong in the [Bonsai community forums](https://aka.ms/as/forums), and copy the full Inkling from the [github repo](https://github.com/BonsaiAI/moabsim-py/blob/master/moab_tutorial_3.ink) to continue.
 
 
 <a name="train"></a>
