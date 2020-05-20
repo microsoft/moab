@@ -156,8 +156,12 @@ source simulator (Action: SimAction, Config: SimConfig): SimState {
 }
 ```
 
-Because `ObservableState` is a subset of `SimState`, the brain will automatically pass only the observable values to the policy, and the final trained brain will only require `ObservableState` values to make its decisions.
+Because `ObservableState` is a subset of `SimState`, the brain will automatically pass only the observable values to the policy, and the final trained brain will only require `ObservableState` values to make its decisions. The goal definition can use the full `SimState`, so change `ObservableState` to `SimState` in the `goal` statement, as in the following code:
 
+```
+goal (State: SimState) {
+    ...
+```
 
 <a name="objective"></a>
 ## Step 5. Add a new objective
@@ -168,7 +172,10 @@ Next, tell the AI that it should avoid the obstacle as it attempts to balance th
 avoid HitObstacle: State.obstacle_distance in Goal.RangeBelow(Cushion)
 ```
 
-That’s it! Now the AI will learn to avoid hitting the obstacle if it can.
+That’s it! Now the AI will learn to avoid hitting the obstacle if it can. 
+
+*Note:* if you had any trouble completing the above steps, please tell us what went wrong in the [Bonsai community forums](https://aka.ms/as/forums), and copy the full Inkling from the [github repo](https://github.com/BonsaiAI/moabsim-py/blob/master/moab_tutorial_2.ink) to continue.
+
 
 <a name="train"></a>
 ## Step 6: Train
