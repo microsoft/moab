@@ -1,0 +1,21 @@
+---
+layout: layouts/base.njk
+---
+<nav>
+  {% set navPages = collections.all | eleventyNavigation %}
+  <span class="hamburger"></span>
+  <ul>
+    {%- for entry in navPages %}
+      <li{% if entry.url == page.url %} class="active"{% endif %}>
+        <a href="{{ entry.url | url }}">{{ entry.title }}</a>
+      </li>
+    {%- endfor %}
+      <li>
+         <a href="https://www.microsoft.com/en-us/ai/autonomous-systems-platform">Autonomous Systems</a>
+      </li>
+  </ul>
+</nav>
+
+<div class="content {{ class }}">
+  {{ content | safe }}
+</div>

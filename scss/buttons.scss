@@ -1,0 +1,188 @@
+/* buttons */
+
+@mixin animated-button($url) {
+  font-family: 'Roboto Mono', monospace;
+  font-weight: bold;
+  display: inline-block;
+  align-items: center;
+  transition: color 0.75s ease;
+  background: none;
+  color: $orange; 
+  position: relative;
+  text-transform: uppercase;
+  padding-right: 25px;
+  z-index: 1;
+
+  &::before {
+    content:"";
+    background: url($url) no-repeat;
+    display: inline-block;
+    height: 50px;
+    width: 50px;
+    margin-right: 13px;
+    vertical-align: middle;
+  }
+
+  &:hover {
+    color: #fff;
+  }
+
+  &::after {
+    position: absolute;
+    content: '';
+    top:0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background-color: $orange;
+    transform-origin:right;
+    transition:width 0.75s ease;
+    z-index:-1;
+  }
+
+  &:hover::after {
+    width: 100%;
+  }
+}
+
+@mixin animated-button-right($url) {
+  font-family: 'Roboto Mono', monospace;
+  font-weight: bold;
+  display: inline-block;
+  align-items: center;
+  transition: color 0.75s ease;
+  background: none;
+  color: $orange; 
+  position: relative;
+  text-transform: uppercase;
+  padding-left: 25px;
+  z-index: 1;
+
+  &::after {
+    content:"";
+    background: url($url) no-repeat;
+    display: inline-block;
+    height: 50px;
+    width: 50px;
+    margin-left: 13px;
+    vertical-align: middle;
+  }
+
+  &:hover {
+    color: #fff;
+  }
+
+  &::before {
+    position: absolute;
+    content: '';
+    top:0;
+    right: 0;
+    width: 0;
+    height: 100%;
+    background-color: $orange;
+    transform-origin:right;
+    transition:width 0.75s ease;
+    z-index:-1;
+  }
+
+  &:hover::before {
+    width: 100%;
+  }
+}
+
+@mixin simple-button($url) {
+  cursor:pointer;
+  display: inline-block;
+  color: $orange;
+  position: relative;
+  z-index: 1;
+
+  &::before {
+    content:"";
+    background: url($url) no-repeat;
+    transition: background-image 0.5s ease-in-out;
+    display: inline-block;
+    height: 50px;
+    width: 50px;
+    margin-right: 13px;
+    vertical-align: middle;
+  }
+}
+
+.internal-button-animate {
+  @include animated-button('../img/icons/internal.svg');
+}
+
+.external-button-animate {
+  @include animated-button('../img/icons/external.svg');
+}
+
+.play-button-animate {
+  @include animated-button('../img/icons/video.svg');
+}
+
+.internal-button-right-animate {
+  @include animated-button-right('../img/icons/internal.svg');
+}
+
+.external-button-right-animate {
+  @include animated-button-right('../img/icons/external.svg');
+}
+
+.play-button-right-animate {
+  @include animated-button-right('../img/icons/video.svg');
+}
+
+
+/* simple buttons */
+.expand-button {
+  @include simple-button('../img/icons/expand.svg');
+}
+
+.close-button {
+  @include simple-button('../img/icons/close.svg');
+}
+
+.external-button {
+  @include simple-button('../img/icons/external.svg');
+}
+
+
+.download-button {
+  cursor:pointer;
+  display: inline-block;
+  color: $orange;
+  position: relative;
+  z-index: 1;
+
+  &::before {
+    content:"";
+    background: url('../img/icons/download.svg') no-repeat;
+    display: inline-block;
+    height: 100px;
+    width: 50px;
+    vertical-align: middle;
+  }
+}
+
+/* hamburger */
+.hamburger {
+  position: relative;
+  display: none;
+  width: 1.25em;
+  height: 0.8em;
+  margin-right: 0.3em;
+  border-top: 0.2em solid $grey;
+  border-bottom: 0.2em solid $grey;
+  font-size: 20px;
+}
+
+.hamburger:before {
+  content: "";
+  position: absolute;
+  top: 0.3em;
+  left: 0px;
+  width: 100%;
+  border-top: 0.2em solid $grey;
+}
+

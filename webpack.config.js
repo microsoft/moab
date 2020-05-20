@@ -2,7 +2,8 @@ const Encore = require('@symfony/webpack-encore');
 
 Encore
   .setOutputPath('build')
-  .setPublicPath('/build')         // when pushed to public
+  //.setPublicPath('/fresh-moab-sandbox/build')  //for fresh site directory
+  .setPublicPath('/build')
   .setManifestKeyPrefix('build')
   .addEntry('app', './js/app.js')
   .enableSingleRuntimeChunk()

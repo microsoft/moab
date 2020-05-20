@@ -1,0 +1,32 @@
+---
+layout: layouts/page.njk
+title: Project Moab - Tutorials
+description: Tutorials
+eleventyNavigation:
+  key: Tutorials
+  order: 2
+---
+
+<h1 class="section mt-160">Tutorials</h1>
+<h3 class="section">Machine Teaching with Bonsai and Moab</h3>
+
+{% fuji_block { title: "1. Balance a ball on a virtual Moab", url: "1-balance/index.html" } %}
+
+<div>
+Get started with the Bonsai platform by learning how to teach an AI to balance a ball in the center of the Moab bot's plate. 
+</div>
+
+{% endfuji_block %}
+
+
+{% fuji_block { title: "2. Robust Balancing with Domain Randomization", url: "2-robustness/index.html" } %}
+<div>
+Learn to bridge the simulation-to-real-world gap by using Domain Randomization. By varying the AI's training environment, you will teach a brain that works better on real hardware.
+</div>
+{% endfuji_block %}
+
+{% fuji_block { title: "3. Avoid obstacles", url: "3-fixed-obstacle/index.html" } %}
+<div>Go beyond single-objective controllers by teaching an AI to balance the ball in the center while avoiding an obstacle.
+</div>
+{% endfuji_block %}
+
