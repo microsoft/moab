@@ -4,6 +4,6 @@ Machine teaching enables the ability to incorporate knowledge from experts rathe
 
 We are also announcing **Project Moab**, a new open-source balancing robot to help engineers and developers learn how to build real-world autonomous control systems with Project Bonsai. Customers can 3D print the robot, and availability for purchase will be announced later in the year.
 
-Today we are expanding preview access to the first component of this platform in a preview program for developers to build autonomous systems with machine teaching. Visit [https://aka.ms/ASGetStarted](https://aka.ms/ASGetStarted) to sign up for the preview.
+Today we are expanding preview access to the first component of this platform in a preview program for developers to build autonomous systems with machine teaching. Visit [https://aka.ms/as/preview](https://aka.ms/as/preview) to sign up for the preview.
 
 Visit [https://aka.ms/moab](https://aka.ms/moab) to learn more
