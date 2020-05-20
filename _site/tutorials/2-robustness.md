@@ -194,6 +194,8 @@ ball_shell: number<PingPongShell * 0.8 .. PingPongShell * 1.2>,
 ```
 By adding this change, the AI will strive to achieve the same goal but uses a ball with a randomly selected radius and shell thickness (between 80% and 120%) for every new episode.
 
+*Note:* if you had any trouble completing the above steps, please tell us what went wrong in the [Bonsai community forums](https://aka.ms/as/forums), and copy the full Inkling from the [github repo](https://github.com/BonsaiAI/moabsim-py/blob/master/moab_tutorial_2.ink) to continue.
+
 To start the experiment, click  **Train**. The Moab simulator will start automatically based on the `package` statement in Inkling.
 
 <a name="experimentation"></a>
