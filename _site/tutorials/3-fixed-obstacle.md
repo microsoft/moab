@@ -60,34 +60,34 @@ To start, simulate the scenario. The Moab simulator can model one obstacle, repr
 |**Parameter Name**  |**Units** |**Description**  |
 |----------------|------|-------------|
 |obstacle_radius |Meters|Radius of the circular obstacle region|
-|obstacle_pos_x  |Meters|Center X location of circle region|
-|obstacle_pos_y  |Meters|Center Y location of circle region|
+|obstacle_x  |Meters|Center X location of circle region|
+|obstacle_y  |Meters|Center Y location of circle region|
 
 Example 1: Values to create an avoid region at the center of the plate with radius of 2cm:
 
 - obstacle_radius = 0.02
-- obstacle_pos_x = 0.0
-- obstacle_pos_y = 0.0
+- obstacle_x = 0.0
+- obstacle_y = 0.0
 
 Example 2: Values to create an avoid region centered 5 cm directly above the center of the plate with radius of 1 cm:
 
 - obstacle_radius = 0.01
-- obstacle_pos_x = 0.0
-- obstacle_pos_y = 0.05
+- obstacle_x = 0.0
+- obstacle_y = 0.05
 
 Example 3: Values to create an avoid region centered 3 cm directly above the center of the plate with radius of 3 cm:
 
 - obstacle_radius = 0.03
-- obstacle_pos_x = -0.03
-- obstacle_pos_y = 0.0
+- obstacle_x = -0.03
+- obstacle_y = 0.0
 
- Scroll to `SimConfig`, then add `obstacle_radius`, `obstacle_pos_x`, and `obstacle_pos_y` to the end of `SimConfig` as in the following code:
+ Scroll to `SimConfig`, then add `obstacle_radius`, `obstacle_x`, and `obstacle_y` to the end of `SimConfig` as in the following code:
 
 ```
 # Obstacle information
 obstacle_radius: number,
-obstacle_pos_x: number,
-obstacle_pos_y: number,
+obstacle_x: number,
+obstacle_y: number,
 ```
 
 ### Pick a location for the obstacle
