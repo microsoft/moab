@@ -87,12 +87,12 @@ dialog.</li>
 <td>Radius of the circular obstacle region</td>
 </tr>
 <tr>
-<td>obstacle_pos_x</td>
+<td>obstacle_x</td>
 <td>Meters</td>
 <td>Center X location of circle region</td>
 </tr>
 <tr>
-<td>obstacle_pos_y</td>
+<td>obstacle_y</td>
 <td>Meters</td>
 <td>Center Y location of circle region</td>
 </tr>
@@ -101,26 +101,26 @@ dialog.</li>
 <p>Example 1: Values to create an avoid region at the center of the plate with radius of 2cm:</p>
 <ul>
 <li>obstacle_radius = 0.02</li>
-<li>obstacle_pos_x = 0.0</li>
-<li>obstacle_pos_y = 0.0</li>
+<li>obstacle_x = 0.0</li>
+<li>obstacle_y = 0.0</li>
 </ul>
 <p>Example 2: Values to create an avoid region centered 5 cm directly above the center of the plate with radius of 1 cm:</p>
 <ul>
 <li>obstacle_radius = 0.01</li>
-<li>obstacle_pos_x = 0.0</li>
-<li>obstacle_pos_y = 0.05</li>
+<li>obstacle_x = 0.0</li>
+<li>obstacle_y = 0.05</li>
 </ul>
 <p>Example 3: Values to create an avoid region centered 3 cm directly above the center of the plate with radius of 3 cm:</p>
 <ul>
 <li>obstacle_radius = 0.03</li>
-<li>obstacle_pos_x = -0.03</li>
-<li>obstacle_pos_y = 0.0</li>
+<li>obstacle_x = -0.03</li>
+<li>obstacle_y = 0.0</li>
 </ul>
-<p>Scroll to <code>SimConfig</code>, then add <code>obstacle_radius</code>, <code>obstacle_pos_x</code>, and <code>obstacle_pos_y</code> to the end of <code>SimConfig</code> as in the following code:</p>
+<p>Scroll to <code>SimConfig</code>, then add <code>obstacle_radius</code>, <code>obstacle_x</code>, and <code>obstacle_y</code> to the end of <code>SimConfig</code> as in the following code:</p>
 <pre><code># Obstacle information
 obstacle_radius: number,
-obstacle_pos_x: number,
-obstacle_pos_y: number,
+obstacle_x: number,
+obstacle_y: number,
 </code></pre>
 <h3>Pick a location for the obstacle</h3>
 <p>Use these new <code>SimConfig</code> parameters to configure the obstacle position and size. Put an obstacle with radius 1cm at (4cm, 4cm) and define a 1cm “cushion” -- how far from the obstacle you want the ball to stay. At the top of the Inkling file, define constants for these (remember that distances are in meters.)</p>
