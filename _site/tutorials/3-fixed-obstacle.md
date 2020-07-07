@@ -48,7 +48,7 @@ To build your brain:
    dialog.
 1. Name your new brain (for example, "Moab Tutorial 3").
 1. Click **Create Brain** to load the sample brain and simulator.
-1.	Start from the [Inkling for tutorial 2](http://github.com/BonsaiAI/moabsim-py/moab_tutorial_2.ink). Copy and paste it into the Inkling editor, replacing the default Inkling.
+1.	Start from the [Inkling for tutorial 2](https://github.com/BonsaiAI/moabsim-py/blob/master/moab_tutorial_2.ink). Copy and paste it into the Inkling editor, replacing the default Inkling.
 
 <a name="hole"></a>
 ## Step 3: Define hole location
