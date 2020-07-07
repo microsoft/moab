@@ -33,7 +33,7 @@ Teach an AI brain to balance a ball in the center of a plate using a custom simu
 
 <!-- /TOC -->
 
-<a name="intro"></a>
+<a name="step-1-define-the-problem"></a>
 
 ## Step 1: Define the problem
 
@@ -76,7 +76,7 @@ The trained AI must learn how to adjust the plate pitch and roll to balance a ba
 
 Now that you have identified the problem and defined the objectives, use machine teaching to train an AI to balance a ball.
 
-<a name="create"></a>
+<a name="step-2-create-a-new-brain"></a>
 
 ## Step 2: Create a new brain
 
@@ -89,7 +89,7 @@ To start a new Moab brain:
 3. Name your new brain (e.g., "Moab Tutorial 1").
 4. Click **Create**
 
-<a name="inspect"></a>
+<a name="step-3-inspect-the-brain"></a>
 
 ## Step 3: Inspect the brain
 
@@ -177,7 +177,7 @@ graph (input: ObservableState) {
 
 A `concept` defines what the AI needs to learn and the `curriculum` is how it learns. Your `MoveToCenter`concept will receive simulator states and respond with actions.  
 
-<a name="goals"></a>
+<a name="step-4-understand-goals"></a>
 
 ## Step 4: Understand goals
 
@@ -234,7 +234,7 @@ drive `Center Of Plate`:
 
 A `drive` objective asks the brain to learn to reach to a target as soon as possible and stay there. In this case, the target is for the ball's X and Y coordinates (`state.ball_x` and `state.ball_y`) to stay within `CloseEnough` radial distance from the plate center.
 
-<a name="train"></a>
+<a name="step-5-train-the-brain"></a>
 
 ## Step 5. Train the brain
 
@@ -294,7 +294,7 @@ As the brain learns to keep the ball from falling off the plate, each episode wi
 
 While you wait for the brain to train, try charting other values.
 
-<a name="evaluate"></a>
+<a name="step-6-evaluate-training-progress"></a>
 
 ## Step 6: Evaluate training progress
 
@@ -310,7 +310,7 @@ Here, performance has reached a peak level and additional training time does not
 
 Congratulations! You have successfully trained a brain to balance the ball!
 
-<a name="assess"></a>
+<a name="step-7-assess-the-trained-brain"></a>
 
 ## Step 7: Assess the trained brain
 
@@ -322,7 +322,7 @@ After the simulator starts, the visualizer and streaming charts from training ar
 
 <img alt="Screenshot of assessment mode loading state" src="../../img/tutorials/1/tutorial1-assessment.png" width="800"/>
 
-<a name="export"></a>
+<a name="step-8-export-and-deploy"></a>
 
 ## Step 8: Export and Deploy
 
@@ -337,6 +337,7 @@ Once Moab kits ship, look here for instructions on deploying the trained brain o
 
 Congratulations! You trained a brain that can balance a ball on a plate, and can be deployed on real hardware. In [Tutorial 2](../2-robustness/index.html), you will learn how to use domain randomization to make the deployed brain more robust to differences between simulation and real life.
 
+<a name="feedback-and-discussion"></a>
 ## Feedback and discussion
 
 Discuss this tutorial and ask questions in the [Bonsai community forums](https://aka.ms/as/forums).
