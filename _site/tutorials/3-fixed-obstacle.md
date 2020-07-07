@@ -12,7 +12,7 @@ Teach an AI to balance a ball in the center of a plate with Bonsai, a predefined
 **Active time**: 25 minutes\
 **Machine training time**: 2.5 hours
 
-**Prerequisites**: To complete this tutorial, you must have a Bonsai workspace provisioned on Azure. If you do not have one, go to [aka.ms/ASGetStarted](https://aka.ms/ASGetStarted) to sign up for the Bonsai public preview.
+**Prerequisites**: To complete this tutorial, you must have a Bonsai workspace provisioned on Azure. If you do not have one, follow the [the account setup guide](https://docs.microsoft.com/en-us/bonsai/guides/account-setup).
 
 ## Outline
 
