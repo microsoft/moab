@@ -12,22 +12,24 @@ Teach an AI brain to balance a ball in the center of a plate using a custom simu
 **Active time**: 25 minutes\
 **Machine training time**: 20 minutes
 
-**Prerequisites**: To complete this tutorial, you must have a Bonsai workspace provisioned on Azure. If you do not have one, go to [aka.ms/ASGetStarted](https://aka.ms/ASGetStarted) to sign up for the Bonsai public preview.
+**Prerequisites**: To complete this tutorial, you must have a Bonsai workspace provisioned on Azure. If you do not have one, follow the [the account setup guide](https://docs.microsoft.com/en-us/bonsai/guides/account-setup).
 
 ## Outline
 
 
 <!-- TOC depthfrom:2 depthto:2 updateonsave:false -->
 
-- [Step 1: Define the problem](#intro)
-- [Step 2: Create a new brain](#create)
-- [Step 3: Inspect the brain](#inspect)
-- [Step 4: Understand goals](#goals)
-- [Step 5. Train the brain](#train)
-- [Step 6: Evaluate training progress](#evaluate)
-- [Step 7: Assess the trained brain](#assess)
-- [Step 8 (optional): Export and Deploy](#export)
+- [Outline](#outline)
+- [Step 1: Define the problem](#step-1-define-the-problem)
+- [Step 2: Create a new brain](#step-2-create-a-new-brain)
+- [Step 3: Inspect the brain](#step-3-inspect-the-brain)
+- [Step 4: Understand goals](#step-4-understand-goals)
+- [Step 5. Train the brain](#step-5-train-the-brain)
+- [Step 6: Evaluate training progress](#step-6-evaluate-training-progress)
+- [Step 7: Assess the trained brain](#step-7-assess-the-trained-brain)
+- [Step 8: Export and Deploy](#step-8-export-and-deploy)
 - [Next steps](#next-steps)
+- [Feedback and discussion](#feedback-and-discussion)
 
 <!-- /TOC -->
 
