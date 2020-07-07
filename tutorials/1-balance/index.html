@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100;0,300;0,400;0,500;0,700;1,100;1,300;1,400;1,700&display=swap" rel="stylesheet"> 
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="" /><link rel="stylesheet" href="/moab/build/app.8bfc0a0c.css" type="text/css"><script type="text/javascript">
+    <meta name="description" content="" /><link rel="stylesheet" href="/moab/build/app.5c7a6d6b.css" type="text/css"><script type="text/javascript">
 var sdkInstance="appInsightsSDK";window[sdkInstance]="appInsights";var aiName=window[sdkInstance],aisdk=window[aiName]||function(n){var o={config:n,initialize:!0},t=document,e=window,i="script";setTimeout(function(){var e=t.createElement(i);e.src=n.url||"https://az416426.vo.msecnd.net/scripts/b/ai.2.min.js",t.getElementsByTagName(i)[0].parentNode.appendChild(e)});try{o.cookie=t.cookie}catch(e){}function a(n){o[n]=function(){var e=arguments;o.queue.push(function(){o[n].apply(o,e)})}}o.queue=[],o.version=2;for(var s=["Event","PageView","Exception","Trace","DependencyData","Metric","PageViewPerformance"];s.length;)a("track"+s.pop());var r="Track",c=r+"Page";a("start"+c),a("stop"+c);var u=r+"Event";if(a("start"+u),a("stop"+u),a("addTelemetryInitializer"),a("setAuthenticatedUserContext"),a("clearAuthenticatedUserContext"),a("flush"),o.SeverityLevel={Verbose:0,Information:1,Warning:2,Error:3,Critical:4},!(!0===n.disableExceptionTracking||n.extensionConfig&&n.extensionConfig.ApplicationInsightsAnalytics&&!0===n.extensionConfig.ApplicationInsightsAnalytics.disableExceptionTracking)){a("_"+(s="onerror"));var p=e[s];e[s]=function(e,n,t,i,a){var r=p&&p(e,n,t,i,a);return!0!==r&&o["_"+s]({message:e,url:n,lineNumber:t,columnNumber:i,error:a}),r},n.autoExceptionInstrumented=!0}return o}(
 {
   instrumentationKey:"5b9c9b83-684f-4954-a770-59b01f9df150"
@@ -37,22 +37,24 @@ var sdkInstance="appInsightsSDK";window[sdkInstance]="appInsights";var aiName=wi
 <p><strong>Total time to complete</strong>: 45 minutes<br>
 <strong>Active time</strong>: 25 minutes<br>
 <strong>Machine training time</strong>: 20 minutes</p>
-<p><strong>Prerequisites</strong>: To complete this tutorial, you must have a Bonsai workspace provisioned on Azure. If you do not have one, go to <a href="https://aka.ms/ASGetStarted">aka.ms/ASGetStarted</a> to sign up for the Bonsai public preview.</p>
+<p><strong>Prerequisites</strong>: To complete this tutorial, you must have a Bonsai workspace provisioned on Azure. If you do not have one, follow the <a href="https://docs.microsoft.com/en-us/bonsai/guides/account-setup">the account setup guide</a>.</p>
 <h2>Outline</h2>
 <!-- TOC depthfrom:2 depthto:2 updateonsave:false -->
 <ul>
-<li><a href="#intro">Step 1: Define the problem</a></li>
-<li><a href="#create">Step 2: Create a new brain</a></li>
-<li><a href="#inspect">Step 3: Inspect the brain</a></li>
-<li><a href="#goals">Step 4: Understand goals</a></li>
-<li><a href="#train">Step 5. Train the brain</a></li>
-<li><a href="#evaluate">Step 6: Evaluate training progress</a></li>
-<li><a href="#assess">Step 7: Assess the trained brain</a></li>
-<li><a href="#export">Step 8 (optional): Export and Deploy</a></li>
+<li><a href="#outline">Outline</a></li>
+<li><a href="#step-1-define-the-problem">Step 1: Define the problem</a></li>
+<li><a href="#step-2-create-a-new-brain">Step 2: Create a new brain</a></li>
+<li><a href="#step-3-inspect-the-brain">Step 3: Inspect the brain</a></li>
+<li><a href="#step-4-understand-goals">Step 4: Understand goals</a></li>
+<li><a href="#step-5-train-the-brain">Step 5. Train the brain</a></li>
+<li><a href="#step-6-evaluate-training-progress">Step 6: Evaluate training progress</a></li>
+<li><a href="#step-7-assess-the-trained-brain">Step 7: Assess the trained brain</a></li>
+<li><a href="#step-8-export-and-deploy">Step 8: Export and Deploy</a></li>
 <li><a href="#next-steps">Next steps</a></li>
+<li><a href="#feedback-and-discussion">Feedback and discussion</a></li>
 </ul>
 <!-- /TOC -->
-<p><a name="intro"></a></p>
+<p><a name="step-1-define-the-problem"></a></p>
 <h2>Step 1: Define the problem</h2>
 <p>Imagine you are holding a plate and trying to keep a ball balanced in the center.</p>
 <p>How would you do it?</p>
@@ -81,7 +83,7 @@ var sdkInstance="appInsightsSDK";window[sdkInstance]="appInsights";var aiName=wi
 <li>The ball position will not get near the plate edge at ( | (x, y) - (0, 0) | &lt;&lt; r).</li>
 </ol>
 <p>Now that you have identified the problem and defined the objectives, use machine teaching to train an AI to balance a ball.</p>
-<p><a name="create"></a></p>
+<p><a name="step-2-create-a-new-brain"></a></p>
 <h2>Step 2: Create a new brain</h2>
 <img alt="A screenshot of the Bonsai home screen" src="../../img/tutorials/1/bonsai-home.png" width="800">
 <p>To start a new Moab brain:</p>
@@ -91,7 +93,7 @@ var sdkInstance="appInsightsSDK";window[sdkInstance]="appInsights";var aiName=wi
 <li>Name your new brain (e.g., &quot;Moab Tutorial 1&quot;).</li>
 <li>Click <strong>Create</strong></li>
 </ol>
-<p><a name="inspect"></a></p>
+<p><a name="step-3-inspect-the-brain"></a></p>
 <h2>Step 3: Inspect the brain</h2>
 <p>After creating the Moab sample brain and simulator sample, Bonsai automatically opens the teaching interface, which is prepopulated with everything you need to get started.</p>
 <img alt="Screenshot of the Bonsai teaching interface" src="../../img/tutorials/1/tutorial1-ui-sections.png" width="800">
@@ -163,7 +165,7 @@ graph (input: ObservableState) {
 ...
 </code></pre>
 <p>A <code>concept</code> defines what the AI needs to learn and the <code>curriculum</code> is how it learns. Your <code>MoveToCenter</code>concept will receive simulator states and respond with actions.</p>
-<p><a name="goals"></a></p>
+<p><a name="step-4-understand-goals"></a></p>
 <h2>Step 4: Understand goals</h2>
 <p>We previously defined two objectives for our brain:</p>
 <ul>
@@ -203,7 +205,7 @@ goal (State: ObservableState) {
     [State.ball_x, State.ball_y] in Goal.Sphere([0, 0], CloseEnough)
 </code></pre>
 <p>A <code>drive</code> objective asks the brain to learn to reach to a target as soon as possible and stay there. In this case, the target is for the ball's X and Y coordinates (<code>state.ball_x</code> and <code>state.ball_y</code>) to stay within <code>CloseEnough</code> radial distance from the plate center.</p>
-<p><a name="train"></a></p>
+<p><a name="step-5-train-the-brain"></a></p>
 <h2>Step 5. Train the brain</h2>
 <p>After defining the brain objectives, Click the <strong>Train</strong> button to start training and open the Train UI, as seen in the following screenshot:</p>
 <img alt="Screenshot of Bonsai UI starting training" src="../../img/tutorials/1/tutorial1-starting-training.png" width="800"/>
@@ -238,7 +240,7 @@ goal (State: ObservableState) {
 <p>Click <code>ball_x</code> and <code>ball_y</code> to display the ball X and Y coordinates. The vertical dashed lines show the stop and start of new episodes.</p>
 <p>As the brain learns to keep the ball from falling off the plate, each episode will get longer. As the brain learns to center the ball,  <code>ball_x</code> and <code>ball_y</code> will reach zero every episode.</p>
 <p>While you wait for the brain to train, try charting other values.</p>
-<p><a name="evaluate"></a></p>
+<p><a name="step-6-evaluate-training-progress"></a></p>
 <h2>Step 6: Evaluate training progress</h2>
 <h3>When should we stop training?</h3>
 <p>The <strong>Goal Satisfaction %</strong> trends upwards during the first 100k – 200k iterations. Afterwards, the various performance lines will converge and flatten. After training for an hour or so, you should see a plot similar to the following screenshot:</p>
@@ -246,13 +248,13 @@ goal (State: ObservableState) {
 <p>Here, performance has reached a peak level and additional training time does not seem to yield any improvement.</p>
 <p><strong>Training can be stopped when you notice that the Goal Satisfaction has not made any meaningful progress, which should occur before 500k iterations.</strong> Hitting the Train button afterwards will resume training.</p>
 <p>Congratulations! You have successfully trained a brain to balance the ball!</p>
-<p><a name="assess"></a></p>
+<p><a name="step-7-assess-the-trained-brain"></a></p>
 <h2>Step 7: Assess the trained brain</h2>
 <p>Click the <strong>Start Assessment</strong> button on the Train page, and the following sub-window should appear.</p>
 <img alt="Screenshot of assessment mode loading state" src="../../img/tutorials/1/tutorial1-starting-assessment.png" width="800"/>
 <p>After the simulator starts, the visualizer and streaming charts from training are displayed. In assessment mode, the brain is tested using the same random scenarios defined in the Inkling lesson.</p>
 <img alt="Screenshot of assessment mode loading state" src="../../img/tutorials/1/tutorial1-assessment.png" width="800"/>
-<p><a name="export"></a></p>
+<p><a name="step-8-export-and-deploy"></a></p>
 <h2>Step 8: Export and Deploy</h2>
 <p>Here is a video of a trained brain from this tutorial, deployed on the Moab hardware:</p>
 <iframe width="800" height="450" src="https://www.youtube.com/embed/iMDVCL7W9xs" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -260,6 +262,7 @@ goal (State: ObservableState) {
 <p><a name="next-steps"></a></p>
 <h2>Next steps</h2>
 <p>Congratulations! You trained a brain that can balance a ball on a plate, and can be deployed on real hardware. In <a href="../2-robustness/index.html">Tutorial 2</a>, you will learn how to use domain randomization to make the deployed brain more robust to differences between simulation and real life.</p>
+<p><a name="feedback-and-discussion"></a></p>
 <h2>Feedback and discussion</h2>
 <p>Discuss this tutorial and ask questions in the <a href="https://aka.ms/as/forums">Bonsai community forums</a>.</p>
 <p>We would appreciate your feedback! <a href="https://aka.ms/as/productfeedback">Submit feedback and product feature requests</a>.</p>
