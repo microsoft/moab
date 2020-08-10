@@ -48,7 +48,7 @@ To build your brain:
    dialog.
 1. Name your new brain (for example, "Moab Tutorial 3").
 1. Click **Create Brain** to load the sample brain and simulator.
-1.	Start from the [Inkling for tutorial 2](https://github.com/BonsaiAI/moabsim-py/blob/main/moab_tutorial_2.ink). Copy and paste it into the Inkling editor, replacing the default Inkling.
+1.	Start from the [Inkling for tutorial 2](https://github.com/microsoft/moabsim-py/blob/main/moab_tutorial_2.ink). Copy and paste it into the Inkling editor, replacing the default Inkling.
 
 <a name="hole"></a>
 ## Step 3: Define hole location
@@ -174,7 +174,7 @@ avoid HitObstacle: State.obstacle_distance in Goal.RangeBelow(Cushion)
 
 That’s it! Now the AI will learn to avoid hitting the obstacle if it can. 
 
-*Note:* if you had any trouble completing the above steps, please tell us what went wrong in the [Bonsai community forums](https://aka.ms/as/forums), and copy the full Inkling from the [github repo](https://github.com/BonsaiAI/moabsim-py/blob/main/moab_tutorial_3.ink) to continue.
+*Note:* if you had any trouble completing the above steps, please tell us what went wrong in the [Bonsai community forums](https://aka.ms/as/forums), and copy the full Inkling from the [github repo](https://github.com/microsoft/moabsim-py/blob/main/moab_tutorial_3.ink) to continue.
 
 
 <a name="train"></a>
