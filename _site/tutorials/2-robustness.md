@@ -186,7 +186,7 @@ Any simulator parameters that aren't included in `SimConfig` are assigned a defa
 
 ### Domain Randomize Ball Radius and Ball Shell
 
-Use the new `SimConfig` parameters in a lesson. Add `ball_radius` and `ball_shell` to the bottom of the `Domain Randomize` lesson with the following lines of code:
+Use the new `SimConfig` parameters in a lesson. Add `ball_radius` and `ball_shell` to the bottom of the `Randomize Start` lesson with the following lines of code:
 
 ```
 ball_radius: number<PingPongRadius * 0.8 .. PingPongRadius * 1.2>,
