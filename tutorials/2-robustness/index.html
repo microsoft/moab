@@ -216,7 +216,7 @@ ball_shell: number, # Shell thickness of ball in (m), shell&gt;0, shell&lt;=radi
 <p><strong>Note:</strong> You can see the full list of available state, action, and configuration variables for a simulator by opening the <code>Moab</code> simulator in the <strong>Navigation Side Panel</strong>.</p>
 </blockquote>
 <h3>Domain Randomize Ball Radius and Ball Shell</h3>
-<p>Use the new <code>SimConfig</code> parameters in a lesson. Add <code>ball_radius</code> and <code>ball_shell</code> to the bottom of the <code>Domain Randomize</code> lesson with the following lines of code:</p>
+<p>Use the new <code>SimConfig</code> parameters in a lesson. Add <code>ball_radius</code> and <code>ball_shell</code> to the bottom of the <code>Randomize Start</code> lesson with the following lines of code:</p>
 <pre><code>ball_radius: number&lt;PingPongRadius * 0.8 .. PingPongRadius * 1.2&gt;,
 ball_shell: number&lt;PingPongShell * 0.8 .. PingPongShell * 1.2&gt;,
 </code></pre>
