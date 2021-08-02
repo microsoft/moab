@@ -118,8 +118,8 @@ The teaching interface has three areas, as in the previous illustration:
 # State received from the simulator after each iteration
 type ObservableState {
     # Ball X,Y position
-    ball_x: number<-RadiusOfPlate .. RadiusOfPlate>,
-    ball_y: number<-RadiusOfPlate .. RadiusOfPlate>,
+    ball_x: number<-MaxDistancePerStep - RadiusOfPlate .. RadiusOfPlate + MaxDistancePerStep>,
+    ball_y: number<-MaxDistancePerStep - RadiusOfPlate .. RadiusOfPlate + MaxDistancePerStep>,
 
     # Ball X,Y velocity
     ball_vel_x: number<-MaxVelocity .. MaxVelocity>,
